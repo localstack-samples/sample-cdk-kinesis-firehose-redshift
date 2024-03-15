@@ -18,3 +18,6 @@ deploy-aws:
 	@echo "Deploy firehose stack"
 	cdk deploy KinesisFirehoseRedshiftStack2 --require-approval never
 
+start-producer:
+	source .venv/bin/activate && python utils/producer_kinesis.py
+
