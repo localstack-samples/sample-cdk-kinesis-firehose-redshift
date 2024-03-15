@@ -1,8 +1,10 @@
 import random
 import time
 from pathlib import Path
+from typing import Callable, TypeVar
 
 import boto3
+import pandas as pd
 import psycopg2
 from dotenv import load_dotenv
 
@@ -66,3 +68,65 @@ def get_new_messages(sample_users):
         messages.append(message)
     return messages
 
+
+def redshift_read_table(connection_string, sql_query):
+    try:
+        conn = psycopg2.connect(connection_string)
+        cursor = conn.cursor()
+        records = pd.read_sql(sql_query, conn)
+        cursor.close()
+        conn.close()
+        return records
+    except Exception as e:
+        return {"status": "error", "error": str(e)}
+
+
+T = TypeVar("T")
+
+
+def retry(
+    function: Callable[..., T], retries=3, sleep=1.0, sleep_before=0, **kwargs
+) -> T:
+    raise_error = None
+    if sleep_before > 0:
+        time.sleep(sleep_before)
+    retries = int(retries)
+    for i in range(0, retries + 1):
+        try:
+            return function(**kwargs)
+        except Exception as error:
+            raise_error = error
+            time.sleep(sleep)
+    raise raise_error
+
+
+def get_expected_data_from_redshift_table(
+    connection_string: str,
+    sql_query: str,
+    expected_row_count: int,
+    retries: int = 30,
+    sleep: int = 10,
+) -> pd.DataFrame:
+    def get_data():
+        df = redshift_read_table(connection_string, sql_query)
+        if df.shape[0] != expected_row_count:
+            raise Exception(f"Failed to receive all expected rows: {df}")
+        else:
+            return df
+
+    return retry(get_data, retries, sleep)
+
+
+def read_s3_data(s3_client, bucket_name: str) -> dict[str, str]:
+    response = s3_client.list_objects(Bucket=bucket_name)
+    if response.get("Contents") is None:
+        raise Exception("No data in bucket yet")
+
+    keys = [obj.get("Key") for obj in response.get("Contents")]
+
+    bucket_data = dict()
+    for key in keys:
+        response = s3_client.get_object(Bucket=bucket_name, Key=key)
+        data = response["Body"].read().decode("utf-8")
+        bucket_data[key] = data
+    return bucket_data
