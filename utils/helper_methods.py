@@ -54,3 +54,15 @@ def redshift_connection_handler(connection_string, sql_command):
     except Exception as e:
         # Assuming 500 as a generic server error status code for any exception
         return {"status": "error", "error": str(e), "status_code": 500}
+
+
+def get_new_messages(sample_users):
+    messages = []
+    for user in sample_users:
+        message = user.copy()
+        message["hr_value"] = random.randint(60, 180)
+        message["novel_stress_marker"] = round(random.uniform(10, 200), 2)
+        message["timestamp"] = time.strftime("%Y-%m-%d %H:%M:%S")
+        messages.append(message)
+    return messages
+
