@@ -86,6 +86,8 @@ class KinesisFirehoseRedshiftStack2(cdk.Stack):
             ),
         )
 
+        # using L1 construct to create firehose delivery stream, since the L2 alpha constructs connection to Redshift did not work
+        # https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_kinesisfirehose_alpha/DeliveryStream.html
         firehose_stream = firehose.CfnDeliveryStream(
             self,
             "FirehoseDeliveryStreamNew",
