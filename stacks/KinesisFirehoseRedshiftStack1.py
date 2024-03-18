@@ -136,6 +136,8 @@ class KinesisFirehoseRedshiftStack1(cdk.Stack):
 
         # create redshift cluster
         ec2_instance_type = "dc2.large"
+        # using L1 construct, since the L2 alpha construct described public accessibility implementation did not work
+        # https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_redshift_alpha/README.html
         self.redshift_cluster = redshift.CfnCluster(
             self,
             "RedshiftCluster",
