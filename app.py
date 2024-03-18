@@ -5,8 +5,14 @@ from stacks.KinesisFirehoseRedshiftStack2 import KinesisFirehoseRedshiftStack2
 
 app = cdk.App()
 
+# define required access roles and resources (kinesis, s3, vpc, redshift) 
+# except firehose in stack 1
 stack_1 = KinesisFirehoseRedshiftStack1(app, "KinesisFirehoseRedshiftStack1")
 
+# define firehose and source / target definitions in stack 2
+# due to bug with resolving Endpoint.Address of the redshift cluster,
+# this needs to be in a separate stack.
+# see issue: https://github.com/aws/aws-cdk/discussions/29355
 stack_2 = KinesisFirehoseRedshiftStack2(
     app,
     "KinesisFirehoseRedshiftStack2",
