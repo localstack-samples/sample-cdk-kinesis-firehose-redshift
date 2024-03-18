@@ -17,7 +17,7 @@ from utils.helper_methods import (
 load_dotenv()
 
 redshift_master_user = os.environ.get("REDSHIFT_MASTER_USER")
-redshift_master_password = os.environ.get("REDSHIFT_MASTER_PW")
+redshift_master_password = os.environ.get("REDSHIFT_MASTER_PASSWORD")
 redshift_db_name = os.environ.get("REDSHIFT_DB_NAME")
 redshift_cluster_name = os.environ.get("REDSHIFT_CLUSTER_NAME")
 

@@ -17,7 +17,7 @@ load_dotenv()
 
 # Access the variables using os.environ
 redshift_master_user = os.environ.get("REDSHIFT_MASTER_USER")
-redshift_master_password = os.environ.get("REDSHIFT_MASTER_PW")
+redshift_master_password = os.environ.get("REDSHIFT_MASTER_PASSWORD")
 redshift_db_name = os.environ.get("REDSHIFT_DB_NAME")
 redshift_table_name = os.environ.get("REDSHIFT_TABLE_NAME")
 
