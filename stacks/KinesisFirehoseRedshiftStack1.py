@@ -83,7 +83,7 @@ class KinesisFirehoseRedshiftStack1(cdk.Stack):
             self,
             "RedshiftVpc",
             vpc_name="redshift-vpc",
-            ip_addresses=ec2.IpAddresses.cidr("10.10.0.0/16"),  # cidr="10.10.0.0.0/16"
+            ip_addresses=ec2.IpAddresses.cidr("10.10.0.0/16"),
             max_azs=1,
             nat_gateways=1,
             enable_dns_support=True,
