@@ -75,31 +75,8 @@ class KinesisFirehoseRedshiftStack1(cdk.Stack):
             role_name="firehose-s3-role",
             assumed_by=iam.ServicePrincipal("firehose.amazonaws.com"),
         )
-        policy_firehose_s3 = iam.Policy(
-            self,
-            "FirehoseS3Policy",
-            policy_name="firehose-s3-policy",
-            statements=[
-                iam.PolicyStatement(
-                    effect=iam.Effect.ALLOW,
-                    actions=[
-                        "s3:AbortMultipartUpload",
-                        "s3:GetBucketLocation",
-                        "s3:GetObject",
-                        "s3:ListBucket",
-                        "s3:ListBucketMultipartUploads",
-                        "s3:PutObject",
-                    ],
-                    resources=[self.bucket.bucket_arn, f"{self.bucket.bucket_arn}/*"],
-                ),
-                iam.PolicyStatement(
-                    effect=iam.Effect.ALLOW,
-                    actions=["logs:PutLogEvents", "logs:CreateLogStream"],
-                    resources=[firehose_s3_log_group.log_group_arn],
-                ),
-            ],
-        )
-        self.role_firehose_s3.attach_inline_policy(policy_firehose_s3)
+        self.bucket.grant_read_write(self.role_firehose_s3)
+        firehose_s3_log_group.grant_write(self.role_firehose_s3)
 
         # Create Redshift cluster VPC
         self.redshift_vpc = ec2.Vpc(
@@ -146,30 +123,8 @@ class KinesisFirehoseRedshiftStack1(cdk.Stack):
             "RedshiftClusterRole",
             role_name="redshift-cluster-role",
             assumed_by=iam.ServicePrincipal("redshift.amazonaws.com"),
-            # alternatively use the following to attach managed policies
-            # managed_policies=[
-            #     iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3ReadOnlyAccess")
-            # ],
         )
-
-        policy_redshift_cluster = iam.Policy(
-            self,
-            "RedshiftPolicy",
-            policy_name="redshift-policy",
-            statements=[
-                iam.PolicyStatement(
-                    effect=iam.Effect.ALLOW,
-                    actions=[
-                        "s3:GetBucketLocation",
-                        "s3:GetObject",
-                        "s3:ListBucket",
-                        "s3:ListBucketMultipartUploads",
-                    ],
-                    resources=[self.bucket.bucket_arn, f"{self.bucket.bucket_arn}/*"],
-                ),
-            ],
-        )
-        role_redshift_cluster.attach_inline_policy(policy_redshift_cluster)
+        self.bucket.grant_read(role_redshift_cluster)
 
         # create subnet group for cluster
         redshift_cluster_subnet_group = redshift.CfnClusterSubnetGroup(
