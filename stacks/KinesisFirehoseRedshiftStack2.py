@@ -69,11 +69,11 @@ class KinesisFirehoseRedshiftStack2(cdk.Stack):
             cluster_jdbcurl=f"jdbc:redshift://{cluster_address}:{cluster_port}/{redshift_db_name}",
             copy_command=firehose.CfnDeliveryStream.CopyCommandProperty(
                 data_table_name=redshift_table_name,
-                copy_options="json 'auto' blanksasnull emptyasnull",
                 # for reference of copy command options https://docs.aws.amazon.com/redshift/latest/dg/r_COPY_command_examples.html#r_COPY_command_examples-copy-from-json
                 # MANIFEST json 'auto' TRUNCATECOLUMNS blanksasnull emptyasnull;",
-                data_table_columns=f"{','.join(sample_user_dtypes.keys())}",
+                copy_options="json 'auto' blanksasnull emptyasnull",
                 # keys in json file from keys in kinesis input must be lower case
+                data_table_columns=f"{','.join(sample_user_dtypes.keys())}",
             ),
             password=redshift_master_password,
             username=redshift_master_user,
