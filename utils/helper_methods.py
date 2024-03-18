@@ -10,8 +10,10 @@ env_path = Path("..") / ".env"
 load_dotenv(env_path)
 
 
-# get cluster endpoint address and port
 def get_redshift_endpoint(cluster_name):
+    """
+    Get the endpoint address and port of the Redshift cluster
+    """
     redshift_client = boto3.client("redshift")
 
     clusters_response = redshift_client.describe_clusters()
@@ -24,6 +26,10 @@ def get_redshift_endpoint(cluster_name):
 
 
 def create_table_sql_generator(table_name, dtypes_dict):
+    """
+    Generate the SQL command to create a table with the given name
+    and column definitions extracted from columns type dictionary
+    """
     # Generate column definitions string
     columns_sql = ",\n".join(
         [f"{column} {dtype}" for column, dtype in dtypes_dict.items()]
@@ -34,6 +40,9 @@ def create_table_sql_generator(table_name, dtypes_dict):
 
 
 def redshift_connection_handler(connection_string, sql_command):
+    """
+    Execute the given SQL command on the Redshift cluster
+    """
     try:
         conn = psycopg2.connect(connection_string)
         cursor = conn.cursor()
