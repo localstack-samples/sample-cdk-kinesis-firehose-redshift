@@ -35,32 +35,6 @@ class KinesisFirehoseRedshiftStack1(cdk.Stack):
             stream_mode=kinesis.StreamMode("PROVISIONED"),
         )
 
-        # Firehose Kinesis access role
-        self.role_firehose_kinesis = iam.Role(
-            self,
-            "FirehoseKinesisRole",
-            role_name="firehose-kinesis-role",
-            assumed_by=iam.ServicePrincipal("firehose.amazonaws.com"),
-        )
-        policy_firehose_kinesis = iam.Policy(
-            self,
-            "FirehoseKinesisPolicy",
-            policy_name="firehose-kinesis-policy",
-            statements=[
-                iam.PolicyStatement(
-                    effect=iam.Effect.ALLOW,
-                    actions=[
-                        "kinesis:DescribeStream",
-                        "kinesis:GetShardIterator",
-                        "kinesis:GetRecords",
-                        "kinesis:ListShards",
-                    ],
-                    resources=[self.kinesis_stream.stream_arn],
-                ),
-            ],
-        )
-        self.role_firehose_kinesis.attach_inline_policy(policy_firehose_kinesis)
-
         # S3 bucket for redshift intermediate storage
         self.bucket = s3.Bucket(
             self,
@@ -70,6 +44,15 @@ class KinesisFirehoseRedshiftStack1(cdk.Stack):
             # auto_delete_objects=True,  # required to delete the not empty bucket
             # auto_delete requires lambda therefore not yet supported by Localstack
         )
+
+        # Firehose Kinesis access role
+        self.role_firehose_kinesis = iam.Role(
+            self,
+            "FirehoseKinesisRole",
+            role_name="firehose-kinesis-role",
+            assumed_by=iam.ServicePrincipal("firehose.amazonaws.com"),
+        )
+        self.kinesis_stream.grant_read(self.role_firehose_kinesis)
 
         # cloud watch logging group and stream for firehose s3 error logging
         self.firehose_s3_log_group_name = "firehose-s3-log-group"
