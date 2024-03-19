@@ -138,3 +138,6 @@ This will run the producer defined in `utils/producer.py` in the background and 
 
 Open the Jupyter Notebook and run the cells to read data from Redshift.
 As new data from the mock Kinesis producer is being sent to the Kinesis stream, the data will be automatically ingested into the Redshift table. You can re-run the cells in the Jupyter Notebook to see the data being updated in real-time.
+
+# Contributing
+We appreciate your interest in contributing to our project and are always looking for new ways to improve the developer experience. We welcome feedback, bug reports, and even feature ideas from the community. Please refer to the contributing file for more details on how to get started.
