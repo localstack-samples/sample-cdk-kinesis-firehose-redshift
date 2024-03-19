@@ -1,0 +1,95 @@
+name: Deploy on LocalStack 
+
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    # “At 00:00 on Sunday.”
+    - cron: "0 0 * * 0"
+  workflow_dispatch:
+
+env:
+  AWS_DEFAULT_REGION: us-east-1
+  AWS_ENDPOINT_URL: http://localhost:4566
+  AWS_ACCESS_KEY_ID: test
+  AWS_SECRET_ACCESS_KEY: test
+
+jobs:
+  cdk:
+    name: Setup infrastructure using CDK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install CDK
+        run: |
+          npm install -g aws-cdk-local aws-cdk
+          cdklocal --version
+          cdk --version
+
+      - name: Set up Python 3.11
+        id: setup-python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+        
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Start LocalStack
+        uses: LocalStack/setup-localstack@main
+        with:
+            image-tag: ${{ inputs.release-tag || 'latest'}}
+            use-pro: 'true'
+            install-awslocal: 'true'
+            configuration: DEBUG=1
+        env:
+            LOCALSTACK_API_KEY: ${{ secrets.LOCALSTACK_API_KEY }}
+
+      - name: Deploy using CDK
+        run: |
+            echo "Preparing deployment"
+            cdklocal bootstrap
+            cdklocal synth
+            echo "Deploy redshift stack"
+            cdklocal deploy KinesisFirehoseRedshiftStack1 --require-approval never
+            python utils/prepare_redshift.py
+            echo "Deploy firehose stack"
+            cdklocal deploy KinesisFirehoseRedshiftStack2 --require-approval never
+
+      - name: List the resources
+        run: |
+            awslocal s3 ls
+            awslocal kinesis list-streams
+            awslocal firehose list-delivery-streams
+            awslocal redshift describe-clusters
+
+      - name: Run pytests
+        run: |
+            pytest tests
+
+      - name: Generate a Diagnostic Report
+        if: failure()
+        run: |
+          curl -s localhost:4566/_localstack/diagnose | gzip -cf > diagnose.json.gz
+
+      - name: Upload the Diagnostic Report
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: diagnose.json.gz
+          path: ./diagnose.json.gz
