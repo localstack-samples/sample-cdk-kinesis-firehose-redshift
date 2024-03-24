@@ -30,5 +30,5 @@ while True:
             Data=json.dumps(message),
             PartitionKey="1",
         )
-        print("status: success")
+        print("Created 1 Kinesis record with for all sample users.")
     time.sleep(10)
