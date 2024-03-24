@@ -59,14 +59,7 @@ jobs:
 
       - name: Deploy using CDK
         run: |
-            echo "Preparing deployment"
-            cdklocal bootstrap
-            cdklocal synth
-            echo "Deploy redshift stack"
-            cdklocal deploy KinesisFirehoseRedshiftStack1 --require-approval never
-            python utils/prepare_redshift.py
-            echo "Deploy firehose stack"
-            cdklocal deploy KinesisFirehoseRedshiftStack2 --require-approval never
+            make deploy-localstack
 
       - name: List the resources
         run: |
