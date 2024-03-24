@@ -14,39 +14,52 @@ LocalStack sample CDK app deploying a Kinesis Event Stream to Data Firehose to R
 # Prerequisites
 
 ## Required Software
-1. install python@3.11
+
+- Python 3.11
+- node >16
+- Docker
+- AWS CLI
+- AWS CDK
+- LocalStack CLI
+
+<details>
+  <summary>if you are on Mac:</summary>
+
+    1. install python@3.11
+        
+        ```bash
+        brew install pyenv
+        pyenv install 3.11.0
+        ```
+
+    2. install nvm and node >= 16
     
-    ```bash
-    brew install pyenv
-    pyenv install 3.11.0
-    ```
+        ```bash
+        brew install nvm
+        nvm install 20
+        nvm use 20
+        ```
+    3. install docker
 
-2. install nvm and node >= 16
-   
-    ```bash
-    brew install nvm
-    nvm install 20
-    nvm use 20
-    ```
-3. install docker
+        ```bash
+        brew install docker
+        ```
 
-    ```bash
-    brew install docker
-    ```
+    4. install aws cli, cdk
 
-4. install aws cli, cdk
+        ```bash
+        brew install awscli
+        npm install -g aws-cdk
+        ```
 
-    ```bash
-    brew install awscli
-    npm install -g aws-cdk
-    ```
+    5. install localstack-cli and cdklocal
+        
+        ```bash
+        brew install localstack/tap/localstack-cli
+        npm install -g aws-cdk-local
+        ```
+</details>
 
-5. install localstack-cli and cdklocal
-    
-    ```bash
-    brew install localstack
-    npm install -g aws-cdk-local
-    ```
 
 ## Setup development environment
 Clone the repository and navigate to the project directory.
