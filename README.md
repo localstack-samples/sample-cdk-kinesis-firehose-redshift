@@ -63,6 +63,12 @@ LocalStack sample CDK app deploying a Kinesis Event Stream to Data Firehose to R
 
 ## Setup development environment
 Clone the repository and navigate to the project directory.
+    
+    ```bash
+    git clone git@github.com:localstack-samples/sample-cdk-kinesis-firehose-redshift.git
+    cd sample-cdk-kinesis-firehose-redshift
+    ```
+    
 Create a virtualenv using python@3.11 and install all the development dependencies there:
 
 ```bash
