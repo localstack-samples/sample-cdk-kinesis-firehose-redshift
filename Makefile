@@ -1,3 +1,5 @@
+.PHONY: deploy-localstack deploy-aws
+
 deploy-localstack:
 	@echo "Preparing deployment"
 	cdklocal bootstrap
