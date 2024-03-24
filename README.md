@@ -143,7 +143,7 @@ make test
 ```
 
 This will run a pytest defined in `tests/test_cdk.py`, put sample data into the Kinesis stream and check if the data is being ingested into the Redshift table.
-If you are running the tests against LocalStack, you need to restart the LocalStack container for cosnequitive runs, since the Redshift table is not being cleaned up after the tests. The same is true for the AWS deployment, you can manually clean up the Redshift table after the tests, or re-deploy the stack.
+If you are running the tests against LocalStack, you need to restart the LocalStack container for consecutive runs, since the Redshift table is not being cleaned up after the tests. The same is true for the AWS deployment, you can manually clean up the Redshift table after the tests, or re-deploy the stack.
 
 ## Github Actions CI tests
 The github actions workflow defined in `.github/workflows/main.yaml` will install the required dependencies, start a LocalStack containerdeploy the infrastructure aginast LocalStack and run the test. The workflow will run on every push to the main branch.
