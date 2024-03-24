@@ -42,7 +42,7 @@ def test_kinesis_firehose_redshift_stack():
 
     # read data from redshift table
     connection_string = f"dbname={redshift_db_name} user={redshift_master_user} password={redshift_master_password} host={cluster_address} port={cluster_port}"
-    sql_query = f"SELECT * FROM {redshift_table_name}"
+    sql_query = f"SELECT * FROM {redshift_table_name}"  # vulnerable to SQL injection dont use in production
 
     df_user_health_data = get_expected_data_from_redshift_table(
         connection_string, sql_query, len(sample_users), retries=30, sleep=10
