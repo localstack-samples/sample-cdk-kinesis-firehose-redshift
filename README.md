@@ -156,7 +156,7 @@ make start-producer
 This will run the producer defined in `utils/producer.py` in the background and start sending new data to the kinesis stream, each 10 seconds.
 
 ## Read data from Redshift
-Open the Jupyter Notebook and run the cells to read data from Redshift.
+Open the Jupyter Notebook (simples way if you are on VSCode is using the extension: https://code.visualstudio.com/docs/datascience/jupyter-notebooks) and run the cells to read data from Redshift.
 As new data from the mock Kinesis producer is being sent to the Kinesis stream, the data will be automatically ingested into the Redshift table.
 You can re-run the cells in the Jupyter Notebook to see the data being updated in real-time.
 
