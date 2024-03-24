@@ -10,6 +10,13 @@ deploy-localstack:
 	@echo "Deploy firehose stack"
 	cdklocal deploy KinesisFirehoseRedshiftStack2 --require-approval never
 
+list-ressources-localstack:
+	@echo "List resources"
+	awslocal s3 ls
+	awslocal kinesis list-streams
+	awslocal firehose list-delivery-streams
+	awslocal redshift describe-clusters
+
 deploy-aws:
 	@echo "Preparing deployment"
 	cdk bootstrap
