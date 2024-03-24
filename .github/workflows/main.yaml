@@ -70,7 +70,7 @@ jobs:
 
       - name: Run pytests
         run: |
-            pytest tests
+            make test
 
       - name: Generate a Diagnostic Report
         if: failure()
