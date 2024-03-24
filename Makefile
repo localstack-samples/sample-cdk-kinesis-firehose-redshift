@@ -18,3 +18,11 @@ deploy-aws:
 	@echo "Deploy firehose stack"
 	cdk deploy KinesisFirehoseRedshiftStack2 --require-approval never
 
+start-producer:
+	source .venv/bin/activate && python utils/producer_kinesis.py
+
+start-localstack:
+	@docker ps -f "name=localstack" | grep localstack > /dev/null || (echo "Starting localstack..." && localstack start)
+
+test:
+	source .venv/bin/activate && pytest -v
