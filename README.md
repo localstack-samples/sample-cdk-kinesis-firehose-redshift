@@ -68,7 +68,12 @@ Clone the repository and navigate to the project directory.
     git clone git@github.com:localstack-samples/sample-cdk-kinesis-firehose-redshift.git
     cd sample-cdk-kinesis-firehose-redshift
     ```
-    
+
+Copy `.env.example` to `.env` and set the environment variables based on your target environment.
+You can use the sample user and password and names, or set your own.
+
+
+
 Create a virtualenv using python@3.11 and install all the development dependencies there:
 
 ```bash
