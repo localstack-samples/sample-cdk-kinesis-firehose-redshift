@@ -14,7 +14,6 @@ LocalStack sample CDK app deploying a Kinesis Event Stream to Data Firehose to R
 # Prerequisites
 
 ## Required Software
-
 - Python 3.11
 - node >16
 - Docker
@@ -85,12 +84,10 @@ pip install -r requirements-dev.txt
 
 
 # Deployment
-
 - Configure the AWS CLI
 - Set the environment variables in the .env file based on .env.example
 
 ## Deploy the CDK stack manually
-
 Against AWS
 
 - unset the .env variable "AWS_ENDPOINT_URL"
@@ -117,7 +114,6 @@ cdklocal deploy KinesisFirehoseRedshiftStack2
 ```
 
 ## Deploy the CDK stack using the Makefile
-
 Against AWS
 
 - unset the .env variable "AWS_ENDPOINT_URL"
@@ -134,24 +130,25 @@ Against LocalStack
 localstack start
 make deploy-localstack
 ```
+
 # Testing
 
 ## Run the tests either against AWS or LocalStack
-
 ```bash
 make test
 ```
 
 This will run a pytest defined in `tests/test_cdk.py`, put sample data into the Kinesis stream and check if the data is being ingested into the Redshift table.
-If you are running the tests against LocalStack, you need to restart the LocalStack container for consecutive runs, since the Redshift table is not being cleaned up after the tests. The same is true for the AWS deployment, you can manually clean up the Redshift table after the tests, or re-deploy the stack.
+If you are running the tests against LocalStack, you need to restart the LocalStack container for consecutive runs, since the Redshift table is not being cleaned up after the tests.
+The same is true for the AWS deployment, you can manually clean up the Redshift table after the tests, or re-deploy the stack.
 
 ## Github Actions CI tests
-The github actions workflow defined in `.github/workflows/main.yaml` will install the required dependencies, start a LocalStack containerdeploy the infrastructure aginast LocalStack and run the test. The workflow will run on every push to the main branch.
+The github actions workflow defined in `.github/workflows/main.yaml` will install the required dependencies, start a LocalStack containerdeploy the infrastructure aginast LocalStack and run the test.
+The workflow will run on every push to the main branch.
 
 # Interact with the deployed resources
 
 ## Start sample kinesis producer
-
 set the endpoint url and port acording to your target.
 ```bash
 make start-producer
@@ -159,9 +156,10 @@ make start-producer
 This will run the producer defined in `utils/producer.py` in the background and start sending new data to the kinesis stream, each 10 seconds.
 
 ## Read data from Redshift
-
 Open the Jupyter Notebook and run the cells to read data from Redshift.
-As new data from the mock Kinesis producer is being sent to the Kinesis stream, the data will be automatically ingested into the Redshift table. You can re-run the cells in the Jupyter Notebook to see the data being updated in real-time.
+As new data from the mock Kinesis producer is being sent to the Kinesis stream, the data will be automatically ingested into the Redshift table.
+You can re-run the cells in the Jupyter Notebook to see the data being updated in real-time.
 
 # Contributing
-We appreciate your interest in contributing to our project and are always looking for new ways to improve the developer experience. We welcome feedback, bug reports, and even feature ideas from the community. Please refer to the contributing file for more details on how to get started.
+We appreciate your interest in contributing to our project and are always looking for new ways to improve the developer experience.
+We welcome feedback, bug reports, and even feature ideas from the community. Please refer to the contributing file for more details on how to get started.
