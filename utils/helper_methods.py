@@ -110,7 +110,8 @@ def get_expected_data_from_redshift_table(
     def get_data():
         df = redshift_read_table(connection_string, sql_query)
         if df.shape[0] != expected_row_count:
-            raise Exception(f"Failed to receive all expected rows: {df}")
+            error_message = f"Failed: Expected {expected_row_count} rows, but received {df.shape[0]} rows."
+            raise Exception(error_message)
         else:
             return df
 
