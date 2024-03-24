@@ -91,6 +91,8 @@ pip install -r requirements-dev.txt
 Against AWS
 
 - unset the .env variable "AWS_ENDPOINT_URL"
+by uncommenting the line in the `.env` file and reloading it.
+If you run the debugger, you will also need to uncomment the line in `.vscode/launch.json`
   
 ```bash
 cdk synth
@@ -116,7 +118,9 @@ cdklocal deploy KinesisFirehoseRedshiftStack2
 ## Deploy the CDK stack using the Makefile
 Against AWS
 
-- unset the .env variable "AWS_ENDPOINT_URL"
+- unset the .env variable "AWS_ENDPOINT_URL" 
+by uncommenting the line in the `.env` file and reloading it.
+If you run the debugger, you will also need to uncomment the line in `.vscode/launch.json`
 
 ```bash
 make deploy-aws
