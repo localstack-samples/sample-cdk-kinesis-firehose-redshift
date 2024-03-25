@@ -148,6 +148,7 @@ The same is true for the AWS deployment, you can manually clean up the Redshift 
 
 ## Github Actions CI tests
 The github actions workflow defined in `.github/workflows/main.yaml` will install the required dependencies, start a LocalStack containerdeploy the infrastructure aginast LocalStack and run the test.
+To set up the workflow, you need to create an environment and set the variables and secrets from you `.env` file.
 The workflow will run on every push to the main branch.
 
 # Interact with the deployed resources
