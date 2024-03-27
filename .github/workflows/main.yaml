@@ -16,6 +16,13 @@ env:
   AWS_ENDPOINT_URL: http://localhost:4566
   AWS_ACCESS_KEY_ID: test
   AWS_SECRET_ACCESS_KEY: test
+  REDSHIFT_MASTER_USER: usernamered
+  REDSHIFT_MASTER_PASSWORD: RedPw1234
+  REDSHIFT_DB_NAME: streaming_db
+  REDSHIFT_CLUSTER_NAME: redshift-cluster
+  REDSHIFT_TABLE_NAME: user_health_data
+  KINESIS_STREAM_NAME: kinesis-stream
+  S3_BUCKET_NAME: firehose-raw-data
 
 jobs:
   cdk:
@@ -35,7 +42,6 @@ jobs:
         run: |
           npm install -g aws-cdk-local aws-cdk
           cdklocal --version
-          cdk --version
 
       - name: Set up Python 3.11
         id: setup-python
@@ -64,7 +70,7 @@ jobs:
 
       - name: List the resources
         run: |
-            list-ressources-localstack
+            make list-resources-localstack
 
       - name: Run pytests
         run: |
@@ -81,3 +87,4 @@ jobs:
         with:
           name: diagnose.json.gz
           path: ./diagnose.json.gz
+  
