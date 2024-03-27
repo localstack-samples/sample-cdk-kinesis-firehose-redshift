@@ -16,13 +16,6 @@ env:
   AWS_ENDPOINT_URL: http://localhost:4566
   AWS_ACCESS_KEY_ID: test
   AWS_SECRET_ACCESS_KEY: test
-  REDSHIFT_MASTER_USER: usernamered
-  REDSHIFT_MASTER_PASSWORD: RedPw1234
-  REDSHIFT_DB_NAME: streaming_db
-  REDSHIFT_CLUSTER_NAME: redshift-cluster
-  REDSHIFT_TABLE_NAME: user_health_data
-  KINESIS_STREAM_NAME: kinesis-stream
-  S3_BUCKET_NAME: firehose-raw-data
 
 jobs:
   cdk:
@@ -32,6 +25,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Load .env file
+        uses: xom9ikk/dotenv@v2
+        with:
+          path: ./
+          mode: ""
+          load-mode: strict
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
