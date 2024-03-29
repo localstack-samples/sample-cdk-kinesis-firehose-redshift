@@ -11,6 +11,8 @@ LocalStack sample CDK app deploying a Kinesis Event Stream to Data Firehose to R
 | GitHub       | [Repository link](https://github.com/localstack-samples/sample-cdk-kinesis-firehose-redshift)        |
 
 
+![acrhitecture diagram showing the pipeline including producer, kinesis stream, data firehose, s3 bucket, redshift and consumer](architecture-diagram.png)
+
 # Prerequisites
 
 ## Required Software
