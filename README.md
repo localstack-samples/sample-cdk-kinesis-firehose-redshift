@@ -15,6 +15,8 @@ LocalStack sample CDK app deploying a Kinesis Event Stream to Data Firehose to R
 
 # Prerequisites
 
+- A valid [LocalStack for AWS license](https://localstack.cloud/pricing). Your license provides a [`LOCALSTACK_AUTH_TOKEN`](https://docs.localstack.cloud/getting-started/auth-token/) to activate LocalStack.
+
 ## Required Software
 - Python 3.11
 - node >16
@@ -84,6 +86,16 @@ source .venv/bin/activate
 pip install -r requirements-dev.txt
 ```    
 
+
+## Start LocalStack
+
+Start LocalStack with the `LOCALSTACK_AUTH_TOKEN` pre-configured:
+
+```bash
+export LOCALSTACK_AUTH_TOKEN=<your-auth-token>
+make start
+make ready
+```
 
 # Deployment
 - Configure the AWS CLI
