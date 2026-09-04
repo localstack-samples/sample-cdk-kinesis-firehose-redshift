@@ -15,15 +15,15 @@ LocalStack sample CDK app deploying a Kinesis Event Stream to Data Firehose to R
 
 # Prerequisites
 
-- A valid [LocalStack for AWS license](https://localstack.cloud/pricing). Your license provides a [`LOCALSTACK_AUTH_TOKEN`](https://docs.localstack.cloud/getting-started/auth-token/) to activate LocalStack.
+- A valid [LocalStack for AWS license](https://localstack.cloud/pricing). Your license provides a [`LOCALSTACK_AUTH_TOKEN`](https://docs.localstack.cloud/aws/getting-started/auth-token/) to activate LocalStack.
 
 ## Required Software
 - Python 3.11
 - node >16
 - Docker
-- AWS CLI
+- AWS CLI, required by `lstk aws`
 - AWS CDK
-- LocalStack CLI
+- [`lstk` CLI](https://docs.localstack.cloud/aws/developer-tools/running-localstack/lstk/)
 
 <details>
   <summary>if you are on Mac:</summary>
@@ -55,11 +55,10 @@ LocalStack sample CDK app deploying a Kinesis Event Stream to Data Firehose to R
         npm install -g aws-cdk
         ```
 
-    5. install localstack-cli and cdklocal
+    5. install lstk
         
         ```bash
-        brew install localstack/tap/localstack-cli
-        npm install -g aws-cdk-local
+        brew install localstack/tap/lstk
         ```
 </details>
 
@@ -94,7 +93,6 @@ Start LocalStack with the `LOCALSTACK_AUTH_TOKEN` pre-configured:
 ```bash
 export LOCALSTACK_AUTH_TOKEN=<your-auth-token>
 make start
-make ready
 ```
 
 # Deployment
@@ -121,12 +119,12 @@ Against LocalStack
 - set the .env variable "AWS_ENDPOINT_URL" to "http://localhost:4566"
 
 ```bash
-localstack start
-cdklocal synth
-cdklocal bootstrap
-cdklocal deploy KinesisFirehoseRedshiftStack1
+lstk start
+lstk cdk synth
+lstk cdk bootstrap
+lstk cdk deploy KinesisFirehoseRedshiftStack1
 python -m utils/prepare_redshift.py
-cdklocal deploy KinesisFirehoseRedshiftStack2
+lstk cdk deploy KinesisFirehoseRedshiftStack2
 ```
 
 ## Deploy the CDK stack using the Makefile
@@ -145,7 +143,7 @@ Against LocalStack
 - set the .env variable "AWS_ENDPOINT_URL" to "http://localhost:4566"
 
 ```bash
-localstack start
+lstk start
 make deploy-localstack
 ```
 

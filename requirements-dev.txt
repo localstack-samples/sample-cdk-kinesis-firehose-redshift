@@ -65,8 +65,6 @@ jupyterlab==4.1.5
 jupyterlab_pygments==0.3.0
 jupyterlab_server==2.25.4
 kiwisolver==1.4.5
-localstack-core==3.1.0
-localstack-ext==3.1.0
 markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 matplotlib==3.8.3
