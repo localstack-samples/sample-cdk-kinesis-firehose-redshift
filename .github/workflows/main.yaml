@@ -60,6 +60,7 @@ jobs:
             LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
             LOCALSTACK_DEBUG: 1
         run: |
+            unset AWS_ENDPOINT_URL
             lstk start
 
       - name: Deploy using CDK
